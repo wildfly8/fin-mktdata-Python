@@ -11,10 +11,11 @@ DB_INV_HISTDATA_STK_BARS = DB_ROOT_DIRECTORY + "db_mgr/db_securities/inv/db_hist
 
 start = dt.datetime(2000, 1, 1)
 end = dt.datetime.now()
-df = web.DataReader("SPY", 'yahoo', start, end)
+symbol = "QQQ"
+df = web.DataReader(symbol, 'yahoo', start, end)
 
 
 
 
-df.to_csv('SPY.csv')
+df.to_csv(symbol + '.csv')
 print(df.head(6))
