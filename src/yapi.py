@@ -18,7 +18,7 @@ def getAllTickers(pricerType):
 def requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize):
     # core pandas datareader API
     df = web.DataReader(ticker, 'yahoo', startDate, endDate)
-    # df = pd.read_excel(DBConstants.DB_INV_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls', sheet_name=0);
+    # df = pd.read_excel(db_constants.DB_INV_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls', sheet_name=0, index_col=0);
     df.reset_index(inplace=True)
     # rename columns
     df.columns = ['open_date', 'high_price', 'low_price', 'open_price', 'close_price', 'volume', 'adjusted_close_price']
