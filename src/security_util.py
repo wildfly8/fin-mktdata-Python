@@ -12,7 +12,7 @@ class SecurityUtil:
                     yahooTicker = yahooTicker.replace(".", "-")
             else:
                 yahooTicker = yahooTicker.replace(".", "-", 1)
-        return  yahooTicker
+        return yahooTicker
 
     @staticmethod
     def chopExchangeCodePrefix(fullTicker):
