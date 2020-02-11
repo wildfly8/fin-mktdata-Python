@@ -1,3 +1,5 @@
+import sys
+print(sys.path)
 import datetime as dt
 import pandas as pd
 import pandas_datareader.data as web
@@ -41,11 +43,14 @@ def requestAllTickersBarDataAndSaveToDB(pricerType, startDate, endDate, barSize)
         requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize)
         print("{}: {} has been successfuly saved!".format(pricerType, ticker))
 
+def main():
+    start = dt.datetime(2000, 1, 1)
+    end = dt.datetime.now()
+    barSize = 'd'
 
-start = dt.datetime(2000, 1, 1)
-end = dt.datetime.now()
-barSize = 'd'
+    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_INV, start, end, barSize)
+    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_ARB, start, end, barSize)
+    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_HFT, start, end, barSize)
 
-requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_INV, start, end, barSize)
-requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_ARB, start, end, barSize)
-requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_HFT, start, end, barSize)
+if __name__ == '__main__':
+    main()
