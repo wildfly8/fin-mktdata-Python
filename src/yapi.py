@@ -39,8 +39,10 @@ def requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate
 def requestAllTickersBarDataAndSaveToDB(pricerType, startDate, endDate, barSize):
     allTickers = getAllTickers(pricerType)
     for ticker in allTickers:
-        ticker = SecurityUtil.chopExchangeCodeSuffix(SecurityUtil.chopExchangeCodePrefix(ticker))
-        requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize)
+        ticker = SecurityUtil.chopExchangeCodePrefix(ticker)
+        yahooTicker = SecurityUtil.getYahooAPITicker(ticker)
+        ticker = SecurityUtil.chopExchangeCodeSuffix(ticker)
+        requestSingleTickerBarDataAndSaveToDB(pricerType, yahooTicker, startDate, endDate, barSize)
         print("{}: {} has been successfuly saved!".format(pricerType, ticker))
 
 def main():
