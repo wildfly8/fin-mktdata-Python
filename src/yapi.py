@@ -18,8 +18,12 @@ def getAllTickers(pricerType):
         return pd.read_excel(db_constants.TABLE_HFT_WATCHLIST, sheet_name='watch_list')[db_constants.WATCHLIST_HEADER[0]].tolist()
 
 def requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize):
+    # prepare valid ticker for Yahoo API
+    ticker = SecurityUtil.chopExchangeCodePrefix(ticker)
+    yahooTicker = SecurityUtil.getYahooAPITicker(ticker)
+    ticker = SecurityUtil.chopExchangeCodeSuffix(ticker)
     # core pandas datareader API
-    df = web.DataReader(ticker, 'yahoo', startDate, endDate)
+    df = web.DataReader(yahooTicker, 'yahoo', startDate, endDate)
     # df = pd.read_excel(db_constants.DB_INV_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls', sheet_name=0, index_col=0);
     df.reset_index(inplace=True)
     # rename columns
@@ -39,11 +43,11 @@ def requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate
 def requestAllTickersBarDataAndSaveToDB(pricerType, startDate, endDate, barSize):
     allTickers = getAllTickers(pricerType)
     for ticker in allTickers:
-        ticker = SecurityUtil.chopExchangeCodePrefix(ticker)
-        yahooTicker = SecurityUtil.getYahooAPITicker(ticker)
-        ticker = SecurityUtil.chopExchangeCodeSuffix(ticker)
-        requestSingleTickerBarDataAndSaveToDB(pricerType, yahooTicker, startDate, endDate, barSize)
-        print("{}: {} has been successfuly saved!".format(pricerType, ticker))
+        try:
+            requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize)
+            print("{}: {} daily bar is successfuly saved.".format(pricerType, ticker))
+        except:
+            print("{}: {} daily bar fails to be saved!".format(pricerType, ticker))
 
 def main():
     start = dt.datetime(2000, 1, 1)
