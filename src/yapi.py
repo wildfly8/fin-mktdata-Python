@@ -1,13 +1,13 @@
 import sys
-print(sys.path)
+print("Python Version: {}, Python Path: {}".format(sys.version, sys.path))
 import datetime as dt
 import pandas as pd
 import pandas_datareader.data as web
 import xlrd
 import xlwt
+import requests
 from src import db_constants
 from src.security_util import SecurityUtil
-
 
 def getAllTickers(pricerType):
     if db_constants.PRICER_INV == pricerType:
@@ -46,8 +46,8 @@ def requestAllTickersBarDataAndSaveToDB(pricerType, startDate, endDate, barSize)
         try:
             requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize)
             print("{}: {} daily bar is successfuly saved.".format(pricerType, ticker))
-        except:
-            print("{}: {} daily bar fails to be saved!".format(pricerType, ticker))
+        except Exception as e:
+            print("{}: {} daily bar fails to be saved! Reason: {}".format(pricerType, ticker, e))
 
 def main():
     start = dt.datetime(2000, 1, 1)
