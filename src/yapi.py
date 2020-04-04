@@ -1,5 +1,5 @@
 import sys
-print("Python Version: {}, Python Path: {}".format(sys.version, sys.path))
+print("Python_Version: {}, Python_Path: {}".format(sys.version, sys.path))
 import datetime as dt
 import pandas as pd
 import pandas_datareader.data as web
