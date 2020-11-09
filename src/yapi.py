@@ -1,3 +1,5 @@
+from src import db_constants
+from src.security_util import SecurityUtil
 import sys
 print("Python_Version: {}, Python_Path: {}".format(sys.version, sys.path))
 import datetime as dt
@@ -5,17 +7,19 @@ import pandas as pd
 import pandas_datareader.data as web
 import xlrd
 import xlwt
-#import requests
-from src import db_constants
-from src.security_util import SecurityUtil
+# import requests
 
 def getAllTickers(pricerType):
     if db_constants.PRICER_INV == pricerType:
-        return pd.read_excel(db_constants.TABLE_INV_WATCHLIST, sheet_name='watch_list')[db_constants.WATCHLIST_HEADER[0]].tolist()
+        return pd.read_excel(db_constants.TABLE_INV_WATCHLIST, sheet_name='watch_list')[
+            db_constants.WATCHLIST_HEADER[0]].tolist()
     elif db_constants.PRICER_ARB == pricerType:
-        return pd.read_excel(db_constants.TABLE_ARB_WATCHLIST, sheet_name='watch_list')[db_constants.WATCHLIST_HEADER[0]].tolist()
+        return pd.read_excel(db_constants.TABLE_ARB_WATCHLIST, sheet_name='watch_list')[
+            db_constants.WATCHLIST_HEADER[0]].tolist()
     elif db_constants.PRICER_HFT == pricerType:
-        return pd.read_excel(db_constants.TABLE_HFT_WATCHLIST, sheet_name='watch_list')[db_constants.WATCHLIST_HEADER[0]].tolist()
+        return pd.read_excel(db_constants.TABLE_HFT_WATCHLIST, sheet_name='watch_list')[
+            db_constants.WATCHLIST_HEADER[0]].tolist()
+
 
 def requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize):
     # prepare valid ticker for Yahoo API
@@ -34,11 +38,15 @@ def requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate
     df['open_date'] = df['open_date'].astype('str')
 
     if db_constants.PRICER_INV == pricerType:
-        df.to_excel(db_constants.DB_INV_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls', sheet_name=ticker, index=False)
+        df.to_excel(db_constants.DB_INV_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls',
+                    sheet_name=ticker, index=False)
     elif db_constants.PRICER_ARB == pricerType:
-        df.to_excel(db_constants.DB_ARB_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls', sheet_name=ticker, index=False)
+        df.to_excel(db_constants.DB_ARB_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls',
+                    sheet_name=ticker, index=False)
     elif db_constants.PRICER_HFT == pricerType:
-        df.to_excel(db_constants.DB_HFT_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls', sheet_name=ticker, index=False)
+        df.to_excel(db_constants.DB_HFT_HISTDATA_STK_BARS + barSize + "_bar_prices/" + ticker + '.xls',
+                    sheet_name=ticker, index=False)
+
 
 def requestAllTickersBarDataAndSaveToDB(pricerType, startDate, endDate, barSize):
     allTickers = getAllTickers(pricerType)
@@ -49,6 +57,7 @@ def requestAllTickersBarDataAndSaveToDB(pricerType, startDate, endDate, barSize)
         except Exception as e:
             print("{}: {} daily bar fails to be saved! Reason: {}".format(pricerType, ticker, e))
 
+
 def main():
     start = dt.datetime(2000, 1, 1)
     end = dt.datetime.now()
@@ -57,6 +66,7 @@ def main():
     requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_INV, start, end, barSize)
     requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_ARB, start, end, barSize)
     requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_HFT, start, end, barSize)
+
 
 if __name__ == '__main__':
     main()
