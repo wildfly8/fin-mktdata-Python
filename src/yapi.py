@@ -48,24 +48,24 @@ def requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate
                     sheet_name=ticker, index=False)
 
 
-def requestAllTickersBarDataAndSaveToDB(pricerType, startDate, endDate, barSize):
-    allTickers = getAllTickers(pricerType)
-    for ticker in allTickers:
+def requestAllTickersBarDataAndSaveToDB(pricer_type, start_date, end_date, bar_size):
+    all_tickers = getAllTickers(pricer_type)
+    for ticker in all_tickers:
         try:
-            requestSingleTickerBarDataAndSaveToDB(pricerType, ticker, startDate, endDate, barSize)
-            print("{}: {} daily bar is successfuly saved.".format(pricerType, ticker))
+            requestSingleTickerBarDataAndSaveToDB(pricer_type, ticker, start_date, end_date, bar_size)
+            print("{}: {} daily bar is successfuly saved.".format(pricer_type, ticker))
         except Exception as e:
-            print("{}: {} daily bar fails to be saved! Reason: {}".format(pricerType, ticker, e))
+            print("{}: {} daily bar fails to be saved! Reason: {}".format(pricer_type, ticker, e))
 
 
 def main():
-    start = dt.datetime(2000, 1, 1)
     end = dt.datetime.now()
-    barSize = 'd'
-
-    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_INV, start, end, barSize)
-    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_ARB, start, end, barSize)
-    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_HFT, start, end, barSize)
+    start = dt.datetime(2000, 1, 1)
+    bar_size = 'd'
+    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_INV, start, end, bar_size)
+    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_ARB, start, end, bar_size)
+    requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_HFT, start, end, bar_size)
+    print("Elapsed Time = {0} sec".format((dt.datetime.now() - end) / 1000))
 
 
 if __name__ == '__main__':
