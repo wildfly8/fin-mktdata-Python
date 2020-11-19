@@ -65,7 +65,7 @@ def main():
     requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_INV, start, end, bar_size)
     requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_ARB, start, end, bar_size)
     requestAllTickersBarDataAndSaveToDB(db_constants.PRICER_HFT, start, end, bar_size)
-    print("Elapsed Time = {0} sec".format((dt.datetime.now() - end) / 1000))
+    print("Elapsed Time = {0} sec".format(dt.datetime.now() - end))
 
 
 if __name__ == '__main__':
