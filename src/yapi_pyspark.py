@@ -76,6 +76,7 @@ def main():
     request_all_tickers_bar_data_and_save_to_db(db_constants.PRICER_ARB, start, end, bar_size, spark)
     request_all_tickers_bar_data_and_save_to_db(db_constants.PRICER_HFT, start, end, bar_size, spark)
     print("Elapsed Time = {0}".format(dt.datetime.now() - end))
+    spark.stop()
 
 
 if __name__ == '__main__':
