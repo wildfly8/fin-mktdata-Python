@@ -9,8 +9,6 @@ import pandas_datareader.data as web
 from pyspark.sql import SparkSession
 import xlrd
 import xlwt
-
-
 # import requests
 
 def get_all_tickers(pricer_type):
